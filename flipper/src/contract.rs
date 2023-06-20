@@ -1,10 +1,8 @@
-use crate::msg::{GreetResp, InstantiateMsg, QueryMsg, AdminsListResp};
+use crate::msg::{AdminsListResp, GreetResp, InstantiateMsg, QueryMsg};
 use crate::state::ADMINS;
-use cosmwasm_std:: { Addr };
+use cosmwasm_std::Addr;
 
-use cosmwasm_std::{
-    to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
-};
+use cosmwasm_std::{to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
 
 pub fn instantiate(
     deps: DepsMut,
@@ -65,17 +63,19 @@ mod tests {
             deps.as_mut(),
             env.clone(),
             mock_info("sender", &[]),
-            InstantiateMsg { admins: vec!["admin1".to_owned(), "admin2".to_owned()] },
+            InstantiateMsg {
+                admins: vec!["admin1".to_owned(), "admin2".to_owned()],
+            },
         )
         .unwrap();
 
-        let resp = query(deps.as_ref(), env, QueryMsg::AdminsList {  }).unwrap();
+        let resp = query(deps.as_ref(), env, QueryMsg::AdminsList {}).unwrap();
         let resp: AdminsListResp = from_binary(&resp).unwrap();
         assert_eq!(
             resp,
             AdminsListResp {
                 admins: vec![Addr::unchecked("admin1"), Addr::unchecked("admin2")],
-            }   
+            }
         );
     }
 
@@ -92,12 +92,12 @@ mod tests {
         )
         .unwrap();
 
-        let resp = query(deps.as_ref(), env, QueryMsg::Greet {  }).unwrap();
+        let resp = query(deps.as_ref(), env, QueryMsg::Greet {}).unwrap();
         let resp: GreetResp = from_binary(&resp).unwrap();
         assert_eq!(
             resp,
             GreetResp {
-                message : "Hello World".to_owned()
+                message: "Hello World".to_owned()
             }
         );
     }

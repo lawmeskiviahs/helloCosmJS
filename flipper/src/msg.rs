@@ -1,5 +1,5 @@
-use serde::{ Deserialize, Serialize };
-use cosmwasm_std::{ Addr };
+use cosmwasm_std::Addr;
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub struct GreetResp {
@@ -7,7 +7,7 @@ pub struct GreetResp {
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
-pub struct AdminsListResp  {
+pub struct AdminsListResp {
     pub admins: Vec<Addr>,
 }
 
