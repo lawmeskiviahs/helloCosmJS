@@ -13,3 +13,5 @@ $ npm install
 ```sh
 $ npm run experiment
 ```
+
+#### Flipper is the sample contract used to interact here 
