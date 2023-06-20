@@ -14,4 +14,10 @@ $ npm install
 $ npm run experiment
 ```
 
+## To create a new mnemonic
+
+```sh
+$ npx ts-node generate_mnemonic > testnet.mnemonic.key
+```
+
 #### Flipper is the sample contract used to interact here 
