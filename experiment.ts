@@ -1,43 +1,108 @@
-import { Block, SigningStargateClient, IndexedTx, SearchTxQuery} from "@cosmjs/stargate"
-import { DirectSecp256k1HdWallet, OfflineDirectSigner} from "@cosmjs/proto-signing"
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { Tendermint37Client } from "@cosmjs/tendermint-rpc";
 
-const { sha256 } = require("@cosmjs/crypto")
-const { toHex } = require("@cosmjs/encoding")
+class CosmJsRpcMethods {
+    private client: any;
+    private tendermintClient: any;
+    private rpUrl:string = "http://localhost:26657";
+    private txHash:string = "8FDA0BBE55F9D11F4FAF91E588E549E65F074FCF5654A6B732BD4FCD1BB3F7A9";
+    private blockNumber:number = parseInt("64");
 
-const rpc = "localhost:26657"
-const mnemonic = "gauge vehicle useless chief vocal decorate vacuum require grant cable goat snake sphere sand marriage rigid fox erosion begin mechanic image orphan logic cause";
-const addressPrefix = 'cosmos';
-// const txHash = 
-const txRaw = "Co8BCowBChwvY29zbW9zLmJhbmsudjFiZXRhMS5Nc2dTZW5kEmwKLWNvc21vczFmbWQzMHR0bXdubDB6NHZ5bWwwcTZweHEzamx3YTM3anAzN2FhcxItY29zbW9zMWZtZDMwdHRtd25sMHo0dnltbDBxNnB4cTNqbHdhMzdqcDM3YWFzGgwKBXN0YWtlEgMxMDASWApQCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohArsSTPT/p8PvGY2Xhs8J2eq9Cy2a5H7UaXvDDqeLQ0NjEgQKAggBGAESBBDAmgwaQG17xMsgK0xy5vOmI6BDcUkQt+NLRLfFGPBrJB7IcIRhK7/+DY19h+ZCcaYLboFAswU+3I0hweoectIvIYN0ph0="
-const txHash = toHex(sha256(Buffer.from(txRaw, 'base64')))
+    public async getTransaction() {
+        try {
+            this.client = await SigningCosmWasmClient.connect(this.rpUrl);
+            const response = await this.client.queryClient.tx.getTx(this.txHash)
+            return response;
+        } catch (err) {
+            console.log("errrorr==", err);
+            return err;
+        }
+    }
 
+    public async getBlockData() {
+        try {
+            this.client = await SigningCosmWasmClient.connect(this.rpUrl);
+            const response = await this.client.getBlock(this.blockNumber);
+            return response;
+        } catch (err) {
+            console.log("errrorr==", err);
+            return err;
+        }
+    }
 
-const runAll = async(): Promise<void> => {
-    
-    // create wallet with prefix
-    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, { prefix: 'cosmos'});
-    const aliceSigner: OfflineDirectSigner = wallet
-    const alice = (await aliceSigner.getAccounts())[0].address
-    
-    console.log("enter");
-    
-    // creating connection instance
-    const client = await SigningStargateClient.connectWithSigner(rpc, aliceSigner);
+    public async getFullBlockInfo() {
+        try {
+            this.client = await SigningCosmWasmClient.connect(this.rpUrl);
+            const response = await this.client.queryClient.tmClient.block(this.blockNumber)
+            return response;
+        } catch (err) {
+            console.log("errrorr==", err);
+            return err;
+        }
+    }
 
-    console.log(alice)
+    public async getAllBlockValidator() {
+        try {
+            this.tendermintClient = await Tendermint37Client.connect(this.rpUrl);
+            const response = await this.tendermintClient.validatorsAll()
+            return response;
+        } catch (err) {
+            console.log("errrorr==", err);
+            return err;
+        }
+    }
 
+    public async getBlockRewards() {
+        try {
+            this.tendermintClient = await Tendermint37Client.connect(this.rpUrl);
+            const response = await this.tendermintClient.blockResults(this.blockNumber);
+            return response;
+        } catch (err) {
+            console.log("errrorr==", err);
+            return err;
+        }
+    }
 
-    console.log("With client, chain id:", await client.getChainId(), ", height:", await client.getHeight())
+    public async getHealth() {
+        try {
+            this.tendermintClient = await Tendermint37Client.connect(this.rpUrl);
+            const response = await this.tendermintClient.health();
+            return response;
+        } catch (err) {
+            console.log("errrorr==", err);
+            return err;
+        }
+    }
 
-    //get tx data 
-    // console.log(txHash)
-    // const txhashh =txHash.toUpperCase()
-    // console.log(txhashh);
-    
-    // const txData: IndexedTx = (await client.getTx(txhashh))!
-    // console.log(txData);
-    
-
+    public async getStatus() {
+        try {
+            this.tendermintClient = await Tendermint37Client.connect(this.rpUrl);
+            const response = await this.tendermintClient.status();
+            return response;
+        } catch (err) {
+            console.log("errrorr==", err);
+            return err;
+        }
+    }
+   
 }
 
-runAll()
+const methods = new CosmJsRpcMethods();
+
+(async () => {
+    const transactionData = await methods.getTransaction();
+    // const blockData = await methods.getBlockData();
+    // const fullblockInfo = await methods.getFullBlockInfo();
+    // const validators = await methods.getAllBlockValidator();
+    // const rewards = await methods.getBlockRewards();
+    // const health = await methods.getHealth();
+    // const status = await methods.getStatus();
+    console.log("transaction Data============", transactionData);
+    // console.log("Block Data============", blockData);
+    // console.log("Full Block Data==========", fullblockInfo);
+    // console.log("All Validators=========", validators);
+    // console.log("Block Rewards=========", rewards);
+    // console.log("Node Health=========", health);
+    // console.log("Node Status=========", status);
+    
+})();
