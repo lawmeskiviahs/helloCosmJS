@@ -11,7 +11,7 @@ $ npm install
 ## Run it
 
 ```sh
-$ npm run experiment
+$ npm run listner
 ```
 
 ## To create a new mnemonic
