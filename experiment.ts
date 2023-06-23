@@ -135,21 +135,21 @@ const methods = new CosmJsRpcMethods();
 
 (async () => {
     // const transactionData = await methods.getTransaction();
-    const blockData = await methods.getBlockData();
+    // const blockData = await methods.getBlockData();
     // const fullblockInfo = await methods.getFullBlockInfo();
     // const validators = await methods.getAllBlockValidator();
     const rewards = await methods.getBlockRewards();
     // const health = await methods.getHealth();
     // const status = await methods.getStatus();
-    // const mintResp = await methods.mint();
+    const mintResp = await methods.mint();
     // console.log("transaction Data============", transactionData);
-    console.log("Block Data============", blockData);
+    // console.log("Block Data============", blockData);
     // console.log("Full Block Data==========", fullblockInfo);
     // console.log("All Validators=========", validators);
     console.log("Block Rewards=========", rewards);
     // console.log("Node Health=========", health);
     // console.log("Node Status=========", status);
-    // console.log("mintResp=================", mintResp);
+    console.log("mintResp=================", mintResp);
     
 })();
 

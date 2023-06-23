@@ -24,7 +24,7 @@ socket.onmessage = function (event:any) {
 
     try {
         const data=JSON.parse(event.data).result;
-        // CosmJsRpcMethods.getBlockRewards
+        CosmJsRpcMethods.getBlockRewards
         console.log(data);
         
     }
