@@ -20,4 +20,6 @@ $ npm run listner
 $ npx ts-node generate_mnemonic > testnet.mnemonic.key
 ```
 
-#### Flipper is the sample contract used to interact here 
+- cw20-base is the sample contract used to interact here 
+- expetiment.ts file contains the query logic to chain
+- listner.ts contains wesocket and connections to the chain
