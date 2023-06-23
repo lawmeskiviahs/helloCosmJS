@@ -27,7 +27,7 @@ class CosmJsRpcMethods {
     public async getBlockData() {
         try {
             this.client = await SigningCosmWasmClient.connect(this.rpUrl);
-            const response = await this.client.getBlock(this.blockNumber);
+            const response = await this.client.getBlock(await this.client.getHeight());
             return response;
         } catch (err) {
             console.log("errrorr==", err);
@@ -38,7 +38,7 @@ class CosmJsRpcMethods {
     public async getFullBlockInfo() {
         try {
             this.client = await SigningCosmWasmClient.connect(this.rpUrl);
-            const response = await this.client.queryClient.tmClient.block(this.blockNumber)
+            const response = await this.client.queryClient.tmClient.block(await this.client.getHeight())
             return response;
         } catch (err) {
             console.log("errrorr==", err);
@@ -135,20 +135,22 @@ const methods = new CosmJsRpcMethods();
 
 (async () => {
     // const transactionData = await methods.getTransaction();
-    // const blockData = await methods.getBlockData();
+    const blockData = await methods.getBlockData();
     // const fullblockInfo = await methods.getFullBlockInfo();
     // const validators = await methods.getAllBlockValidator();
-    // const rewards = await methods.getBlockRewards();
+    const rewards = await methods.getBlockRewards();
     // const health = await methods.getHealth();
     // const status = await methods.getStatus();
-    const mintResp = await methods.mint();
+    // const mintResp = await methods.mint();
     // console.log("transaction Data============", transactionData);
-    // console.log("Block Data============", blockData);
+    console.log("Block Data============", blockData);
     // console.log("Full Block Data==========", fullblockInfo);
     // console.log("All Validators=========", validators);
-    // console.log("Block Rewards=========", rewards);
+    console.log("Block Rewards=========", rewards);
     // console.log("Node Health=========", health);
     // console.log("Node Status=========", status);
-    console.log("mintResp=================", mintResp);
+    // console.log("mintResp=================", mintResp);
     
 })();
+
+export default new CosmJsRpcMethods()

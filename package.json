@@ -5,16 +5,19 @@
   "main": "index.js",
   "scripts": {
     "experiment": "ts-node experiment.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "listner": "ts-node listner.ts"
   },
   "author": "B9lab",
   "license": "ISC",
   "devDependencies": {
+    "@types/websocket": "^1.0.5",
     "ts-node": "10.7.0"
   },
   "dependencies": {
+    "@cosmjs/cosmwasm-stargate": "^0.30.0",
     "@cosmjs/stargate": "0.28.2",
-    "@cosmjs/cosmwasm-stargate": "^0.30.0" ,
-    "@cosmjs/tendermint-rpc": "^0.30.0"
+    "@cosmjs/tendermint-rpc": "^0.30.0",
+    "websocket": "^1.0.34"
   }
 }
