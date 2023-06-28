@@ -126,6 +126,7 @@ class CosmJsRpcMethods {
         }
     }
 
+    // Returns the balance of 'this.contract_address' cw-20 token for 'address'
     public async query(cosmWasmClient: any, address: string) {
         try {
 
