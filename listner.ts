@@ -16,6 +16,7 @@ async function connect() {
     socket.onopen = async function () {
 
         const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, { prefix: "wasm" })
+        const address = (await wallet.getAccounts())[0].address
         const tendermintClient = await Tendermint37Client.connect(rpcUrl)
         const cosmWasmClient = await SigningCosmWasmClient.createWithSigner(tendermintClient, wallet)
 
@@ -53,7 +54,11 @@ async function connect() {
                 const address: any = await CosmJsRpcMethods.getDelegatorAddress(valoperAddress);
             
                 await CosmJsRpcMethods.mint(cosmWasmClient, amount.toString(), wallet, address);
-
+                
+                // to get balance from the smart contract
+                // const balance = await CosmJsRpcMethods.query(cosmWasmClient, address)
+                // console.log(balance.balance);
+                
                 console.log(CosmJsRpcMethods.blockNumber);
             
                 await delay(4000);

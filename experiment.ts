@@ -126,6 +126,26 @@ class CosmJsRpcMethods {
         }
     }
 
+    public async query(cosmWasmClient: any, address: string) {
+        try {
+
+            // sending an query instruction to the contract
+            const response = await cosmWasmClient.queryContractSmart(
+                this.contract_address,
+                {
+                    balance: {
+                        address: address,
+                    },
+                },
+            )
+
+            return response
+        } catch (err) {
+            console.log("mint error ==", err)
+            return err
+        }
+    }
+
     public async getProposerAddress(cosmWasmClient: any) {
         try {
 
