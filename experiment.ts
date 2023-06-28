@@ -107,16 +107,16 @@ class CosmJsRpcMethods {
             const executeFee = calculateFee(3508879, gasPrice)
 
             // sending an execute instruction to the contract
-            const response = await cosmWasmClient.execute(
-                senderAddress,
-                this.contract_address,
+            const response = await cosmWasmClient.execute(                          // call execute function in smart contract
+                senderAddress,                                                      // source address for transaction
+                this.contract_address,                                              // contract address
                 {
-                    mint: {
-                        recipient: senderAddress,
-                        amount: amount,
+                    mint: {                                                         // ExecuteMsg:mint message
+                        recipient: senderAddress,                                   // mint to
+                        amount: amount,                                             // amount
                     },
                 },
-                executeFee
+                executeFee                                                          // expected fee
             )
 
             return response
@@ -129,12 +129,12 @@ class CosmJsRpcMethods {
     public async query(cosmWasmClient: any, address: string) {
         try {
 
-            // sending an query instruction to the contract
-            const response = await cosmWasmClient.queryContractSmart(
-                this.contract_address,
+            // sending a query instruction to the contract
+            const response = await cosmWasmClient.queryContractSmart(               // call the query function of smart contract
+                this.contract_address,                                              // contract address
                 {
-                    balance: {
-                        address: address,
+                    balance: {                                                      // QueryMsg:balance message
+                        address: address,                                           // check balance for this address
                     },
                 },
             )
