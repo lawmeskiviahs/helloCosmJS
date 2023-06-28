@@ -55,7 +55,7 @@ async function connect() {
             
                 await CosmJsRpcMethods.mint(cosmWasmClient, amount.toString(), wallet, address);
                 
-                // to get balance from the smart contract
+                // to get balance from the smart
                 // const balance = await CosmJsRpcMethods.query(cosmWasmClient, address)
                 // console.log(balance.balance);
                 

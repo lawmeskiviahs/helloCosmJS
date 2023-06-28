@@ -186,8 +186,8 @@ class CosmJsRpcMethods {
 
     public async getDelegatorAddress(operatorAddr: any) {
         try {
-            let address = await bech32.decode(operatorAddr);
-            let delegatorAddress = await bech32.encode(this.prefix, address.words);
+            let address = bech32.decode(operatorAddr);
+            let delegatorAddress = bech32.encode(this.prefix, address.words);
             return delegatorAddress;
         } catch (err) {
             console.log("getDelegatorAddress error ==", err);
