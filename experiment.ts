@@ -141,7 +141,7 @@ class CosmJsRpcMethods {
 
             return response
         } catch (err) {
-            console.log("mint error ==", err)
+            console.log("query error ==", err)
             return err
         }
     }
