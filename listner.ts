@@ -58,14 +58,14 @@ async function connect() {
                 // to get balance from the smart contract
                 // const balance = await CosmJsRpcMethods.query(cosmWasmClient, address)
                 // console.log(balance.balance);
-                console.log("fetched block :", CosmJsRpcMethods.blockNumber, "----- GasUsed to produce block", gasUsed ,"----- Reward ", amount,"tokens are minted to ", address);
+                console.log("fetched block :", CosmJsRpcMethods.blockNumber, "----- GasUsed to produce this block :", gasUsed ,"----- Reward ", amount,"tokens are minted to ", address);
                 
                 // console.log(CosmJsRpcMethods.blockNumber);
             
                 await delay(4000);
                     
             } catch (err) {
-                console.log("fetched block :", CosmJsRpcMethods.blockNumber, "----- GasUsed to produce block", "0" ,"----- Reward 0 tokens are minted to ", address);
+                console.log("fetched block :", CosmJsRpcMethods.blockNumber, "----- GasUsed to produce this block : 0 ----- Reward 0 tokens are minted to ", address);
                 await delay(4000)
                 
             }
