@@ -111,12 +111,12 @@ class CosmJsRpcMethods {
                 senderAddress,                                                      // source address for transaction
                 this.contract_address,                                              // contract address
                 {
-                    mint: {                                                         // ExecuteMsg:mint message
-                        recipient: senderAddress,                                   // mint to
-                        amount: amount,                                             // amount
+                    mint: {                                                         // ExecuteMsg:mint instruction
+                        recipient: senderAddress,                                   // mint to address
+                        amount: amount,                                             // amount to be minted
                     },
                 },
-                executeFee                                                          // expected fee
+                executeFee                                                          // expected fee for this particular transaction
             )
 
             return response
@@ -135,7 +135,7 @@ class CosmJsRpcMethods {
                 this.contract_address,                                              // contract address
                 {
                     balance: {                                                      // QueryMsg:balance message
-                        address: address,                                           // check balance for this address
+                        address: address,                                           // key address to get the balance
                     },
                 },
             )

@@ -37,34 +37,36 @@ async function connect() {
         CosmJsRpcMethods.blockNumber = await cosmWasmClient.getHeight();
         for (CosmJsRpcMethods.blockNumber;;CosmJsRpcMethods.blockNumber++) {
 
-            try{
-
+            try {
                 const currentBlock = await cosmWasmClient.getHeight();
 
-                // wait if we are too fast xD
+                // wait if the reward get calculated too fast xD
                 if(CosmJsRpcMethods.blockNumber>currentBlock)
                     await delay(4000);
 
                 // to get gas from block rewards
                 const blockRewards = await CosmJsRpcMethods.getBlockRewards(tendermintClient);
-                const amount = blockRewards.results[0].gasUsed;
-
+                const gasUsed = blockRewards.results[0].gasUsed;
+                let amount = (gasUsed/5000)
+                amount = parseInt(amount.toString())
                 const proposerAddress: any = await CosmJsRpcMethods.getProposerAddress(cosmWasmClient);
                 const valoperAddress =await CosmJsRpcMethods.getTendermintValidatorAddressToValoperAddress(tendermintClient, CosmJsRpcMethods.blockNumber, proposerAddress);
                 const address: any = await CosmJsRpcMethods.getDelegatorAddress(valoperAddress);
             
-                await CosmJsRpcMethods.mint(cosmWasmClient, amount.toString(), wallet, address);
+                const mintResp = await CosmJsRpcMethods.mint(cosmWasmClient, amount.toString(), wallet, address);
                 
-                // to get balance from the smart
+                // to get balance from the smart contract
                 // const balance = await CosmJsRpcMethods.query(cosmWasmClient, address)
                 // console.log(balance.balance);
+                console.log("fetched block :", CosmJsRpcMethods.blockNumber, "----- GasUsed to produce block", gasUsed ,"----- Reward ", amount,"tokens are minted to ", address);
                 
-                console.log(CosmJsRpcMethods.blockNumber);
+                // console.log(CosmJsRpcMethods.blockNumber);
             
                 await delay(4000);
-                    } catch (err) {
-                        console.log("no transactions in ",CosmJsRpcMethods.blockNumber, " block");
-                        await delay(4000)
+                    
+            } catch (err) {
+                console.log("fetched block :", CosmJsRpcMethods.blockNumber, "----- GasUsed to produce block", "0" ,"----- Reward 0 tokens are minted to ", address);
+                await delay(4000)
                 
             }
         }
